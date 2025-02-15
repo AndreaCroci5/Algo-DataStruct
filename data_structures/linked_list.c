@@ -69,5 +69,38 @@ Nodeptr tail_insert(Nodeptr head, int data) {
     return head;
 }
 
+Nodeptr delete_node(Nodeptr head, int data) {
+    Nodeptr tmp_node;
+    if (!is_an_empty_list(head)) {
+        if (head->data == data) {
+            tmp_node = head->next;
+            free(head);
+            return tmp_node;
+        } else {
+            head->next = delete_node(head->next, data);
+        }
+    }
+    return head;
+}
 
+Nodeptr delete_node_w_duplicates(Nodeptr head, int data) {
+    Nodeptr tmp_node;
+    if (!is_an_empty_list(head)) {
+        if (head->data == data) {
+            tmp_node = head->next;
+            free(head);
+            return delete_node_w_duplicates(tmp_node, data);
+        } else {
+            head->next = delete_node_w_duplicates(head->next, data);
+        }
+    }
+    return head;
+}
+
+void destroy_list( Nodeptr head) {
+    if (!is_an_empty_list(head)) {
+        destroy_list((head->next));
+        free(head);
+    }
+}
 

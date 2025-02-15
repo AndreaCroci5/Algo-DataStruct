@@ -127,3 +127,13 @@ void print_list_reverse(Nodeptr head) {
     }
 }
 
+Nodeptr reverse_list(Nodeptr head) {
+    Nodeptr ptr, new_head;
+    if (is_an_empty_list(head) || is_an_empty_list(head->next))
+        return head;
+    ptr = head->next;
+    new_head = reverse_list(head->next);
+    ptr->next = head;
+    head->next = NULL;
+    return new_head;
+}

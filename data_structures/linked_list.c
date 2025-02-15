@@ -41,3 +41,33 @@ Nodeptr get_last_Node(Nodeptr head) {
     }
     return ptr;
 }
+
+int is_an_empty_list(Nodeptr head) {
+    return head == NULL;
+}
+
+int check_data_presence(Nodeptr head, int data) {
+    if (is_an_empty_list(head))
+        return 0;
+    if (head->data == data)
+        return 1;
+    return check_data_presence(head->next, data);
+}
+
+Nodeptr head_insert(Nodeptr head, int data) {
+    Nodeptr new_head;
+    new_head = malloc(sizeof(Node));
+    new_head->data = data;
+    new_head-> next = head;
+    return new_head;
+}
+
+Nodeptr tail_insert(Nodeptr head, int data) {
+    if (is_an_empty_list(head))
+        return head_insert(head, data);
+    head->next = tail_insert(head->next, data);
+    return head;
+}
+
+
+

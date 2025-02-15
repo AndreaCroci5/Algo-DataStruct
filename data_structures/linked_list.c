@@ -1,6 +1,7 @@
 //
 // Created by Andrea Croci on 15/02/25.
 //
+#include <stdio.h>
 #include <stdlib.h>
 
 typedef struct Nd {
@@ -10,11 +11,12 @@ typedef struct Nd {
 
 typedef Node * Nodeptr;
 
-void search_node_from_data(Nodeptr head, int data) {
+Nodeptr search_node_from_data(Nodeptr head, int data) {
     Nodeptr ptr = head;
     while (ptr != NULL && ptr->data != data) {
         ptr = ptr->next;
     }
+    return ptr;
 }
 
 /* For variant
@@ -97,10 +99,31 @@ Nodeptr delete_node_w_duplicates(Nodeptr head, int data) {
     return head;
 }
 
-void destroy_list( Nodeptr head) {
+void destroy_list(Nodeptr head) {
     if (!is_an_empty_list(head)) {
-        destroy_list((head->next));
+        destroy_list(head->next);
         free(head);
+    }
+}
+
+void print_list(Nodeptr head) {
+    if (is_an_empty_list(head))
+        printf("--|");
+    else {
+        if (!is_an_empty_list(head->next))
+            printf("%d --> ", head->data);
+        print_list(head->next);
+    }
+}
+
+void print_list_reverse(Nodeptr head) {
+    if (is_an_empty_list(head))
+        printf("|--");
+    else {
+        print_list_reverse(head->next);
+        if (!is_an_empty_list(head->next))
+            printf("<--");
+        printf("%d", head->data);
     }
 }
 

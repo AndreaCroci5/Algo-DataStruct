@@ -4,6 +4,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+// LIST STRUCTURE AND TYPE DECLARATION
 typedef struct Nd {
     int data;
     struct Nd * next;
@@ -11,6 +12,9 @@ typedef struct Nd {
 
 typedef Node * Nodeptr;
 
+// FUNCTIONS
+
+// Search
 Nodeptr search_node_from_data(Nodeptr head, int data) {
     Nodeptr ptr = head;
     while (ptr != NULL && ptr->data != data) {
@@ -44,6 +48,8 @@ Nodeptr get_last_Node(Nodeptr head) {
     return ptr;
 }
 
+// Checking
+
 int is_an_empty_list(Nodeptr head) {
     return head == NULL;
 }
@@ -55,6 +61,8 @@ int check_data_presence(Nodeptr head, int data) {
         return 1;
     return check_data_presence(head->next, data);
 }
+
+// Insertion
 
 Nodeptr head_insert(Nodeptr head, int data) {
     Nodeptr new_head;
@@ -70,6 +78,8 @@ Nodeptr tail_insert(Nodeptr head, int data) {
     head->next = tail_insert(head->next, data);
     return head;
 }
+
+// Deletion
 
 Nodeptr delete_node(Nodeptr head, int data) {
     Nodeptr tmp_node;
@@ -106,6 +116,8 @@ void destroy_list(Nodeptr head) {
     }
 }
 
+// Print
+
 void print_list(Nodeptr head) {
     if (is_an_empty_list(head))
         printf("--|");
@@ -127,6 +139,8 @@ void print_list_reverse(Nodeptr head) {
     }
 }
 
+// Reverse
+
 Nodeptr reverse_list(Nodeptr head) {
     Nodeptr ptr, new_head;
     if (is_an_empty_list(head) || is_an_empty_list(head->next))
@@ -136,4 +150,56 @@ Nodeptr reverse_list(Nodeptr head) {
     ptr->next = head;
     head->next = NULL;
     return new_head;
+}
+
+
+// PROCEDURES
+
+// Insertion
+
+void head_insertion_procedure(Nodeptr * head, int data) {
+    Nodeptr ptr;
+    ptr = malloc(sizeof(Node));
+    ptr->data = data;
+    ptr->next = *head;
+    *head = ptr;
+}
+
+void tail_insertion_procedure(Nodeptr * head, int data ) {
+    Nodeptr ptr;
+    if (is_an_empty_list(*head)) {
+        ptr = malloc(sizeof(Node));
+        ptr->next = NULL;
+        ptr->data = data;
+        *head = ptr;
+    } else {
+        tail_insertion_procedure( &((*head)->next), data );
+    }
+}
+
+void specific_insertion_procedure_in_ordered_list(Nodeptr * head, int data) {
+    Nodeptr ptr, curr_ptr, prev_ptr=NULL;
+    curr_ptr = *head;
+    while (curr_ptr != NULL && data > curr_ptr->data)  {
+        prev_ptr = curr_ptr;
+        curr_ptr = curr_ptr->next;
+    }
+    ptr = malloc(sizeof(Nodeptr));
+    ptr->data = data;
+    ptr->next = curr_ptr;
+    if( prev_ptr != NULL )
+        prev_ptr->next = ptr;
+    else
+        *head = ptr;
+}
+
+void delete_node_procedure(Nodeptr * head, int data) {
+    Nodeptr tmp_ptr;
+    if(!is_an_empty_list(*head) )
+        if((*head)->data == data ) {
+            tmp_ptr = *head;
+            *head = get_last_Node(*head);
+            free(tmp_ptr);
+        }
+        else delete_node_procedure( &((*head)->next), data );
 }

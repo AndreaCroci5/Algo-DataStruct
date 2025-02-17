@@ -1,8 +1,8 @@
 /**
-* @file        linked_list.c
+* @file         linked_list.c
  * @author      Andrea Croci
  * @date        2025-02-15
- * @brief       Implementation of a linled list.
+ * @brief       Implementation of a linked list.
  *
  * @details     This file implements a simple linked list with
  *              various operations such as insertion, deletion and search
